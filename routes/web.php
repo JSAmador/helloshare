@@ -17,16 +17,11 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index');
 
-Auth::routes();
+Route::get('/admin', function(){
+   return view('admin.index');
+});
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::resource('admin/users', 'AdminUsersController');
 
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
-
-Route::get('admin/user/roles',['middleware'=>'role', function(){
-    return "Middleware role";
-}]);
