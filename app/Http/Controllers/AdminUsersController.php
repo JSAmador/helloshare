@@ -46,7 +46,21 @@ class AdminUsersController extends Controller
     {
         //
 
-        User::create($request->all());
+        //User::create($request->all());
+
+        $user = $request->all();
+
+        if($file = $request->file('image')) {
+            $name = time().$file->getClientOriginalName();
+            $file->move('images', $name);
+            $image = Image::create(['file_path'=>$name]);
+            $user['image_id'] = $image->id;
+        }
+
+
+        $user['password'] = bcrypt($request->password);
+
+        User::create($user);
 
         return redirect('admin/users');
 

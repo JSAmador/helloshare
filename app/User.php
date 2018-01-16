@@ -38,4 +38,8 @@ class User extends Authenticatable
         return false;
     }
 
+    public function image(){
+        return $this->belongsTo('App\Image');
+    }
+
 }
