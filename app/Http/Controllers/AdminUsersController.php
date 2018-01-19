@@ -134,5 +134,18 @@ class AdminUsersController extends Controller
     public function destroy($id)
     {
         //
+
+        $user = User::findOrFail($id);
+
+        if($user->image->file_path != "defaults/default_sharer.png") {
+            unlink(public_path().$user->image->file_path);
+        }
+
+
+
+        $user->delete();
+
+        return redirect('/admin/users');
+
     }
 }

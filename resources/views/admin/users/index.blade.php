@@ -25,7 +25,7 @@
                 <td><a href="{{route('users.edit', $user->id)}}" class="btn btn-primary">Edit</a></td>
                 <td>{{$user->id}}</td>
                 <td><img height="50" src="{{$user->image ? $user->image->file_path : 'no image'}}" alt="User Image"></td>
-                <td>{{$user->name}}</td>
+                <td><a href="{{route('users.edit', $user->id)}}">{{$user->name}}</a></td>
                 <td>{{$user->email}}</td>
                 <td>{{$user->role->name}}</td>
                 <td>{{$user->is_active == 1 ? 'Active' : 'No active'}}</td>
