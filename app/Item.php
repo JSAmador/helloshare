@@ -27,6 +27,10 @@ class Item extends Model
         return $this->belongsTo('App\Image');
     }
 
+    public function categories() {
+        return $this->hasMany('App\Category');
+    }
+
 
 }
 
