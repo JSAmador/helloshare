@@ -22,6 +22,8 @@ class CreateItemsTable extends Migration
             $table->integer('location_id')->unsigned()->index();
             $table->string('status');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

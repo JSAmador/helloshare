@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UsersEditRequest;
 use App\Http\Requests\UsersRequest;
 use App\Image;
 use App\Role;
@@ -103,7 +104,7 @@ class AdminUsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UsersRequest $request, $id)
+    public function update(UsersEditRequest $request, $id)
     {
         //
 
@@ -118,8 +119,13 @@ class AdminUsersController extends Controller
             $input['image_id'] = $image->id;
         }
 
+        if(!$input['password']) {
+            unset($input['password']);
+        } else {
+            $input['password'] = bcrypt($request->password);
+        }
 
-        $input['password'] = bcrypt($request->password);
+
 
         $user->update($input);
 
@@ -138,7 +144,7 @@ class AdminUsersController extends Controller
 
         $user = User::findOrFail($id);
 
-        if($user->image->file_path != "defaults/default_sharer.png") {
+        if($user->image->id != 0) {
             unlink(public_path().$user->image->file_path);
         }
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
 use App\Http\Requests\ItemCreateRequest;
 use App\Image;
 use App\Item;
@@ -79,7 +80,12 @@ class AdminItemsController extends Controller
     public function edit($id)
     {
         //
-        return view('admin.items.edit');
+
+        $item = Item::findOrFail($id);
+
+        $categories = Category::pluck('name', 'id')->all();
+
+        return view('admin.items.edit', compact('item', 'categories'));
     }
 
     /**
@@ -92,6 +98,22 @@ class AdminItemsController extends Controller
     public function update(Request $request, $id)
     {
         //
+
+        $input = $request->all();
+
+
+        if($file = $request->file('image')) {
+            $name = time().$file->getClientOriginalName();
+            $file->move('images', $name);
+            $image = Image::create(['file_path'=>$name]);
+            $input['image_id'] = $image->id;
+        }
+
+        Auth::user()->items()->whereId($id)->first()->update($input);
+
+        return redirect('/admin/items');
+
+
     }
 
     /**
@@ -103,5 +125,18 @@ class AdminItemsController extends Controller
     public function destroy($id)
     {
         //
+
+        $item = Item::findOrFail($id);
+
+
+        if($item->image->id != 0) {
+            unlink(public_path().$item->image->file_path);
+        }
+
+
+        $item->delete();
+
+        return redirect('/admin/items');
+
     }
 }
