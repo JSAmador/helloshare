@@ -1,5 +1,7 @@
 @extends('layouts.admin')
 
+
+
 @section('content')
 
     <h1>Create Item</h1>
@@ -32,14 +34,17 @@
 
 
     <div class="form-group">
-        {!! Form::label('image', 'Image') !!}
+        {!! Form::label('image', 'Featured Image') !!}
         {!! Form::file('image', null, ['class'=>'form-control']) !!}
     </div>
 
     <div class="form-group">
-        {!! Form::submit('Create Item', ['class'=>'btn btn-primary']) !!}
+        {!! Form::submit('Add Images', ['class'=>'btn btn-primary']) !!}
     </div>
     {!! Form::close() !!}
 
 
+
+
 @stop
+

@@ -18,6 +18,8 @@
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 
 
+    @yield('styles')
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -143,6 +145,11 @@
 
                             <li>
                                 <a href="{{route('items.create')}}">Create Item</a>
+                            </li>
+
+
+                            <li>
+                                <a href="{{route('comments.index')}}">Comments</a>
                             </li>
 
                         </ul>

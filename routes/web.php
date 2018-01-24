@@ -19,16 +19,23 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index');
 
-Route::get('/admin', function(){
-   return view('admin.index');
-});
+Route::get('/items/{id}', 'AdminItemsController@show');
 
 
 Route::group(['middleware'=> 'admin'], function(){
 
+    Route::get('/admin', function(){
+        return view('admin.index');
+    });
+
     Route::resource('admin/users', 'AdminUsersController');
     Route::resource('admin/items', 'AdminItemsController');
     Route::resource('admin/categories', 'AdminCategoriesController');
+    Route::resource('admin/items/media', 'AdminItemsMediaController');
+
+    // Comments
+    Route::resource('admin/comments', 'ItemCommentController');
+    Route::resource('admin/comments/replies', 'CommentRepliesController');
 
 });
 

@@ -6,6 +6,7 @@ use App\Category;
 use App\Http\Requests\ItemCreateRequest;
 use App\Image;
 use App\Item;
+use App\ItemImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -57,8 +58,10 @@ class AdminItemsController extends Controller
 
         $user->items()->create($input);
 
-        return redirect('/admin/items');
+        return redirect('/admin/items/media/create');
     }
+
+
 
     /**
      * Display the specified resource.
@@ -69,6 +72,15 @@ class AdminItemsController extends Controller
     public function show($id)
     {
         //
+
+        $item = Item::findOrFail($id);
+
+
+
+        return view('item', compact('item'));
+
+
+
     }
 
     /**
@@ -82,6 +94,7 @@ class AdminItemsController extends Controller
         //
 
         $item = Item::findOrFail($id);
+
 
         $categories = Category::pluck('name', 'id')->all();
 

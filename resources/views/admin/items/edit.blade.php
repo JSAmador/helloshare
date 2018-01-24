@@ -1,11 +1,37 @@
 @extends('layouts.admin')
 
+@section('styles')
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.2.0/min/dropzone.min.css">
+
+@stop
+
 @section('content')
 
     <h1>Create Item</h1>
 
     <div class="col-sm-3">
-        <img src="{{$item->image->file_path}}" alt="" class="img-responsive img-rounded">
+        <div class="row">
+            <img src="{{$item->image->file_path}}" alt="" class="img-responsive img-rounded">
+        </div>
+
+        <div class="row">
+
+
+
+                <div src="{{$item->images}}" class="img-responsive img-rounded"></div>
+
+
+        </div>
+
+        <div class="row">
+            <p>Add more Images to your Item</p>
+            {!! Form::open(['method'=>'POST', 'action'=>['AdminItemsMediaController@store', $item->id], 'class'=>'dropzone', 'files'=>true]) !!}
+
+            <input type="hidden" name="item_id" value="{{$item->id}}">
+
+            {!! Form::close() !!}
+        </div>
     </div>
 
     <div class="col-sm-9">
@@ -36,16 +62,18 @@
         </div>
 
 
-
         <div class="form-group">
-            {!! Form::label('image', 'Image') !!}
+            {!! Form::label('image', 'Featured Image') !!}
             {!! Form::file('image', null, ['class'=>'form-control']) !!}
         </div>
 
         <div class="form-group">
-            {!! Form::submit('Create Item', ['class'=>'btn btn-primary']) !!}
+            {!! Form::submit('Save Item', ['class'=>'btn btn-primary']) !!}
         </div>
         {!! Form::close() !!}
+
+
+
 
         {!! Form::open(['method'=>'DELETE', 'action'=>['AdminItemsController@destroy', $item->id]]) !!}
 
@@ -56,5 +84,11 @@
         {!! Form::close() !!}
     </div>
 
+
+@stop
+
+@section('footer')
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.2.0/min/dropzone.min.js"></script>
 
 @stop
