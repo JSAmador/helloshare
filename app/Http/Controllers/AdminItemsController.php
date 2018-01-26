@@ -75,9 +75,9 @@ class AdminItemsController extends Controller
 
         $item = Item::findOrFail($id);
 
+        $comments = $item->comments()->whereIsActive(1)->get();
 
-
-        return view('item', compact('item'));
+        return view('item', compact('item', 'comments'));
 
 
 
@@ -95,10 +95,11 @@ class AdminItemsController extends Controller
 
         $item = Item::findOrFail($id);
 
+        $item_images = $item->images;
 
         $categories = Category::pluck('name', 'id')->all();
 
-        return view('admin.items.edit', compact('item', 'categories'));
+        return view('admin.items.edit', compact('item', 'categories', 'item_images'));
     }
 
     /**

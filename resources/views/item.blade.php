@@ -29,76 +29,114 @@
         <p class="lead">{{$item->description}}</p>
     <hr>
 
-    <!-- Blog Comments -->
+    @if(Auth::check())
 
-    <!-- Comments Form -->
-    <div class="well">
+        <!-- Item Comments -->
+
+        <!-- Comments Form -->
+        <div class="well">
 
 
-        @if(Session::has('comment_message'))
+            @if(Session::has('comment_message'))
 
-            <p class="bg-success">{{session('comment_message')}}</p>
+                <p class="bg-success">{{session('comment_message')}}</p>
 
-        @endif
+            @endif
 
-        {!! Form::open(['method'=>'POST', 'action'=>'ItemCommentController@store']) !!}
+            {!! Form::open(['method'=>'POST', 'action'=>'ItemCommentController@store']) !!}
 
-        <input type="hidden" name="item_id" value="{{$item->id}}">
+            <input type="hidden" name="item_id" value="{{$item->id}}">
 
-            <div class="form-group">
-                {!! Form::label('body', 'Leave a comment') !!}
-                {!! Form::textarea('body', null, ['class'=>'form-control', 'rows'=>3]) !!}
-            </div>
+                <div class="form-group">
+                    {!! Form::label('body', 'Leave a comment') !!}
+                    {!! Form::textarea('body', null, ['class'=>'form-control', 'rows'=>3]) !!}
+                </div>
 
-            <div class="form-group">
-                {!! Form::submit('Publish Comment', ['class'=>'btn btn-primary']) !!}
-            </div>
-        {!! Form::close() !!}
+                <div class="form-group">
+                    {!! Form::submit('Publish Comment', ['class'=>'btn btn-primary']) !!}
+                </div>
+            {!! Form::close() !!}
 
-    </div>
-
-    <hr>
-
-    <!-- Posted Comments -->
-
-    <!-- Comment -->
-    <div class="media">
-        <a class="pull-left" href="#">
-            <img class="media-object" src="http://placehold.it/64x64" alt="">
-        </a>
-        <div class="media-body">
-            <h4 class="media-heading">Start Bootstrap
-                <small>August 25, 2014 at 9:30 PM</small>
-            </h4>
-            Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
         </div>
-    </div>
 
-    <!-- Comment -->
-    <div class="media">
-        <a class="pull-left" href="#">
-            <img class="media-object" src="http://placehold.it/64x64" alt="">
-        </a>
-        <div class="media-body">
-            <h4 class="media-heading">Start Bootstrap
-                <small>August 25, 2014 at 9:30 PM</small>
-            </h4>
-            Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-            <!-- Nested Comment -->
+        @else
+            <h4>You need to login to post comments</h4>
+
+    @endif
+
+    @if(count($comments) > 0)
+
+        <!-- Posted Comments -->
+
+        @foreach($comments as $comment)
+            <!-- Comment -->
             <div class="media">
                 <a class="pull-left" href="#">
-                    <img class="media-object" src="http://placehold.it/64x64" alt="">
+                    <img class="media-object" height="50" src="{{$comment->user->image->file_path}}" alt="Sharer picture">
                 </a>
                 <div class="media-body">
-                    <h4 class="media-heading">Nested Start Bootstrap
-                        <small>August 25, 2014 at 9:30 PM</small>
+                    <h4 class="media-heading">{{$comment->user->name}}
+                        <small>{{$comment->created_at->toDayDateTimeString()}}</small>
                     </h4>
-                    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                    <p>{{$comment->body}}</p>
+
+
+                    <!-- Replies -->
+                    @if(count($comment->replies)>0)
+
+                        @foreach($comment->replies as $reply)
+
+                            @if($reply->is_active == 1)
+
+                                <div class="media">
+
+                                    <a href="" class="pull-left">
+                                        <img class="media-object" height="50" src="{{$reply->user->image->file_path}}" alt="Sharer picture">
+                                    </a>
+
+                                    <div class="media-body">
+                                        <h4 class="media-heading">{{$reply->user->name}}
+                                            <small>{{$reply->created_at->toDayDateTimeString()}}</small>
+
+                                        </h4>
+                                            {{$reply->body}}
+                                    </div>
+                                </div>
+                            @endif
+                        @endforeach
+                    @endif
+
+                    {!! Form::open(['method'=>'POST', 'action'=>'ItemCommentRepliesController@commentReply']) !!}
+
+
+                    <input type="hidden" name="comment_id" value="{{$comment->id}}">
+
+                        <div class="form-group">
+                            {!! Form::label('body', 'Reply to comment') !!}
+                            {!! Form::text('body', null, ['class'=>'form-control']) !!}
+                        </div>
+
+                        <div class="form-group">
+                            {!! Form::submit('Reply', ['class'=>'btn btn-primary']) !!}
+                        </div>
+                    {!! Form::close() !!}
+
+
+
+
+
+
+                    <!-- End Replies -->
+
+
                 </div>
             </div>
-            <!-- End Nested Comment -->
-        </div>
-    </div>
+        @endforeach
+
+
+
+
+    @endif
 
 
 

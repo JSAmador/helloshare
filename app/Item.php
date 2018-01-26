@@ -39,6 +39,10 @@ class Item extends Model
         return $this->hasMany('App\ItemImage');
     }
 
+    public function replies(){
+        return $this->hasMany('App\CommentReply');
+    }
+
 
 }
 

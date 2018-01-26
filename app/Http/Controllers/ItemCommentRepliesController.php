@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Comment;
+use App\CommentReply;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ItemCommentRepliesController extends Controller
 {
@@ -14,7 +17,11 @@ class ItemCommentRepliesController extends Controller
     public function index()
     {
         //
+        $replies = CommentReply::all();
+
+        return view('admin.comments.replies.index', compact('replies'));
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -37,6 +44,25 @@ class ItemCommentRepliesController extends Controller
         //
     }
 
+    public function commentReply(Request $request){
+
+        $user = Auth::user();
+
+        $data = [
+
+            'comment_id'=> $request->comment_id,
+            'user_id'=>$user->id,
+            'body'=>$request->body
+
+        ];
+
+        CommentReply::create($data);
+
+        $request->session()->flash('reply_message', 'Your reply has been submited');
+
+        return redirect()->back();
+    }
+
     /**
      * Display the specified resource.
      *
@@ -46,6 +72,10 @@ class ItemCommentRepliesController extends Controller
     public function show($id)
     {
         //
+        $comment = Comment::findOrFail($id);
+        $replies = $comment->replies;
+
+        return view('admin.comments.replies.show', compact('comment', 'replies'));
     }
 
     /**
@@ -69,6 +99,11 @@ class ItemCommentRepliesController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $reply = CommentReply::findOrFail($id);
+
+        $reply->update($request->all());
+
+        return redirect()->back();
     }
 
     /**
@@ -80,5 +115,8 @@ class ItemCommentRepliesController extends Controller
     public function destroy($id)
     {
         //
+        CommentReply::findOrFail($id)->delete();
+
+        return redirect()->back();
     }
 }

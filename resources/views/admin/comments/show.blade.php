@@ -2,12 +2,10 @@
 
 
 @section('content')
-    
-<h1>All Comments</h1>
 
-<a href="{{route('replies.all')}}">View all replies</a>
+    <h1>All Comments for this item</h1>
 
-    
+
     <table class="table table-striped">
         <thead>
         <tr>
@@ -33,30 +31,30 @@
                     <td>{{$comment->user->name}}</td>
                     <td>{{$comment->user->email}}</td>
                     <td><a href="/items/{{$comment->item->id}}"> {{$comment->item->name}}</a></td>
-                    <td><a href="{{route('replies.show', $comment->id)}}">View Replies</a></td>
                     <td>{{$comment->created_at}}</td>
+                    <td><a href="{{route('replies.show', $comment->id)}}">View Replies</a></td>
                     <td>{{$comment->is_active}}</td>
                     <td>
                         @if($comment->is_active == 1)
 
-                                {!! Form::open(['method'=>'PATCH', 'action'=>['ItemCommentController@update', $comment->id]]) !!}
+                            {!! Form::open(['method'=>'PATCH', 'action'=>['ItemCommentController@update', $comment->id]]) !!}
 
-                                    <input type="hidden" name="is_active" value="0">
+                            <input type="hidden" name="is_active" value="0">
 
-                                    <div class="form-group">
-                                        {!! Form::submit('Unaprove', ['class'=>'btn btn-primary']) !!}
-                                    </div>
-                                {!! Form::close() !!}
+                            <div class="form-group">
+                                {!! Form::submit('Unaprove', ['class'=>'btn btn-primary']) !!}
+                            </div>
+                            {!! Form::close() !!}
 
-                            @else
-                                {!! Form::open(['method'=>'PATCH', 'action'=>['ItemCommentController@update', $comment->id]]) !!}
+                        @else
+                            {!! Form::open(['method'=>'PATCH', 'action'=>['ItemCommentController@update', $comment->id]]) !!}
 
-                                <input type="hidden" name="is_active" value="1">
+                            <input type="hidden" name="is_active" value="1">
 
-                                <div class="form-group">
-                                    {!! Form::submit('Aprove', ['class'=>'btn btn-success']) !!}
-                                </div>
-                                {!! Form::close() !!}
+                            <div class="form-group">
+                                {!! Form::submit('Aprove', ['class'=>'btn btn-success']) !!}
+                            </div>
+                            {!! Form::close() !!}
 
 
 
@@ -66,10 +64,10 @@
                     </td>
                     <td>    {!! Form::open(['method'=>'DELETE', 'action'=>['ItemCommentController@destroy', $comment->id]]) !!}
 
-                                <div class="form-group">
-                                    {!! Form::submit('Delete', ['class'=>'btn btn-danger']) !!}
-                                </div>
-                            {!! Form::close() !!}
+                        <div class="form-group">
+                            {!! Form::submit('Delete', ['class'=>'btn btn-danger']) !!}
+                        </div>
+                        {!! Form::close() !!}
                     </td>
                 </tr>
             @endforeach

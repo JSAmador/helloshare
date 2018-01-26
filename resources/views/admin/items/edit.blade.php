@@ -17,10 +17,11 @@
 
         <div class="row">
 
+            @foreach($item_images as $item_image)
 
+                <img src="{{$item_image->file_path}}" class="img-responsive img-rounded">
 
-                <div src="{{$item->images}}" class="img-responsive img-rounded"></div>
-
+            @endforeach
 
         </div>
 

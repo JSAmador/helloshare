@@ -3,7 +3,10 @@
 
 @section('content')
 
-    <h1>All replies</h1>
+    <h1>All replies for this Comment</h1>
+
+    <h4>Author: {{$comment->user->name}}</h4>
+    <p>Body: {{$comment->body}}</p>
 
     <table class="table table-striped">
         <thead>
@@ -28,7 +31,7 @@
                     <td><a href="{{route('replies.edit', $reply->id)}}">{{$reply->body}}</a></td>
                     <td>{{$reply->user->name}}</td>
                     <td>{{$reply->user->email}}</td>
-                    <td><a href="{{route('home.item', $reply->comment->item->id)}}"> {{ $reply->comment->item->name}} </a></td>
+                    <td><a href="/items/{{$comment->item->id}}"> {{$comment->item->name}}</a></td>
                     <td>{{$reply->created_at}}</td>
                     <td>
                         @if($reply->is_active == 1)

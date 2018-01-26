@@ -19,7 +19,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index');
 
-Route::get('/items/{id}', 'AdminItemsController@show');
+Route::get('/items/{id}', 'AdminItemsController@show')->name('home.item');
 
 
 Route::group(['middleware'=> 'admin'], function(){
@@ -35,8 +35,15 @@ Route::group(['middleware'=> 'admin'], function(){
 
     // Comments
     Route::resource('admin/comments', 'ItemCommentController');
-    Route::resource('admin/comments/replies', 'CommentRepliesController');
+    Route::resource('admin/comments/replies', 'ItemCommentRepliesController');
+    Route::get('admin/replies/all', 'ItemCommentRepliesController@index')->name('replies.all');
 
 });
 
+
+Route::group(['middleware'=>'auth'], function(){
+
+   Route::post('comment/reply', 'ItemCommentRepliesController@commentReply');
+
+});
 

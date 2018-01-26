@@ -36,6 +36,8 @@
                 <td>{{$item->user->name}}</td>
                 <td>{{$item->created_at}}</td>
                 <td>{{$item->updated_at->diffForHumans()}}</td>
+                <td><a href="items/{{$item->id}}" target="_blank">View Item</a></td>
+                <td><a href="{{route('comments.show', $item->id)}}">View Comments</a></td>
             </tr>
         @endforeach
     @endif

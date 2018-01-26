@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Comment;
+use App\Item;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -67,6 +68,11 @@ class ItemCommentController extends Controller
     public function show($id)
     {
         //
+        $item = Item::findOrFail($id);
+
+        $comments = $item->comments;
+
+        return view('admin.comments.show', compact('comments'));
     }
 
     /**
@@ -90,6 +96,11 @@ class ItemCommentController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $comment = Comment::findOrFail($id);
+
+        $comment->update($request->all());
+
+        return redirect('/admin/comments');
     }
 
     /**
@@ -101,5 +112,9 @@ class ItemCommentController extends Controller
     public function destroy($id)
     {
         //
+
+        Comment::findOrFail($id)->delete();
+
+        return redirect()->back();
     }
 }
