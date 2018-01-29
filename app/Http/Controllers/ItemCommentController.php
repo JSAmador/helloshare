@@ -17,7 +17,7 @@ class ItemCommentController extends Controller
     public function index()
     {
         //
-        $comments = Comment::all();
+        $comments = Comment::paginate(25);
 
         return view('admin.comments.index', compact('comments'));
     }

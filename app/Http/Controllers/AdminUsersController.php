@@ -20,7 +20,7 @@ class AdminUsersController extends Controller
     {
         //
 
-        $users = User::all();
+        $users = User::paginate(25);
 
         return view('admin.users.index', compact('users'));
     }

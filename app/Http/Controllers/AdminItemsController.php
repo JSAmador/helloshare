@@ -20,7 +20,7 @@ class AdminItemsController extends Controller
     public function index()
     {
         //
-        $items = Item::all();
+        $items = Item::paginate(5);
 
         return view('admin.items.index', compact('items'));
     }
@@ -56,9 +56,10 @@ class AdminItemsController extends Controller
             $input['image_id'] = $image->id;
         }
 
-        $user->items()->create($input);
+        $item =$user->items()->create($input);
 
-        return redirect('/admin/items/media/create');
+
+        return redirect()->route('items.edit', $item->id);
     }
 
 

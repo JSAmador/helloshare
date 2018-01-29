@@ -4,16 +4,26 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Cviebrock\EloquentSluggable\Sluggable;
 
 class Item extends Model
 {
     //
     use SoftDeletes;
+    use Sluggable;
+
 
     protected $dates = ['deleted_at'];
 
 
     protected $fillable = ['name', 'description', 'image_id', 'category_id', 'location_id'];
+
+    public function sluggable(){
+
+        return [
+            'slug'=>['source'=>'title']
+        ];
+    }
 
     public function user(){
         return $this->belongsTo('App\User');
