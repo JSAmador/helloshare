@@ -37,6 +37,12 @@ class User extends Authenticatable
         }
         return false;
     }
+    public function isUser(){
+        if($this->role->name == 'user' && $this->is_active == 1){
+            return true;
+        }
+        return false;
+    }
 
     public function image(){
         return $this->belongsTo('App\Image');
